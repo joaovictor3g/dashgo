@@ -1,3 +1,5 @@
-export function dashboard() {
-  return <h1>Dashboard</h1>;
+import { Header } from "../components/Header";
+
+export default function dashboard() {
+  return <Header />;
 }
