@@ -1,10 +1,37 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { Button, Flex, Stack } from "@chakra-ui/react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { object, string } from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Input } from "../components/Form";
 
+type SiginInFormData = {
+  email: string;
+  password: string;
+};
+
+const signInFormSchema = object().shape({
+  email: string().required("E-mail obrigatório").email("E-mail inválido"),
+  password: string().required("Senha obrigatória"),
+});
+
 const Home: NextPage = () => {
+  const { register, handleSubmit, formState } = useForm<SiginInFormData>({
+    resolver: yupResolver(signInFormSchema),
+  });
+
+  const { errors } = formState;
+
+  const handleSignIn: SubmitHandler<SiginInFormData> = async (
+    values,
+    event
+  ) => {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    console.log(values);
+  };
+
   return (
     <div>
       <Head>
@@ -25,13 +52,30 @@ const Home: NextPage = () => {
           p="8"
           borderRadius="8"
           flexDir="column"
+          onSubmit={handleSubmit(handleSignIn)}
         >
           <Stack spacing={4}>
-            <Input name="email" type="email" label="E-mail" />
-            <Input name="password" type="password" label="Senha" />
+            <Input
+              type="email"
+              label="E-mail"
+              error={errors.email}
+              {...register("email")}
+            />
+            <Input
+              type="password"
+              label="Senha"
+              error={errors.password}
+              {...register("password")}
+            />
           </Stack>
 
-          <Button type="submit" mt="6" colorScheme="pink" size="lg">
+          <Button
+            type="submit"
+            mt="6"
+            colorScheme="pink"
+            size="lg"
+            isLoading={formState.isSubmitting}
+          >
             Entrar
           </Button>
         </Flex>
