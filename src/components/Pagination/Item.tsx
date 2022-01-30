@@ -3,9 +3,10 @@ import { Button } from "@chakra-ui/react";
 interface ItemProps {
   number: number;
   isCurrent?: boolean;
+  onPageChange: (page: number) => void;
 }
 
-export function Item({ isCurrent = false, number }: ItemProps) {
+export function Item({ isCurrent = false, number, onPageChange }: ItemProps) {
   if (isCurrent) {
     return (
       <Button
@@ -15,6 +16,7 @@ export function Item({ isCurrent = false, number }: ItemProps) {
         colorScheme="pink"
         disabled
         _disabled={{ bgColor: "pink.500", cursor: "default" }}
+        color="white"
       >
         {number}
       </Button>
@@ -27,8 +29,8 @@ export function Item({ isCurrent = false, number }: ItemProps) {
       fontSize="xs"
       width="4"
       colorScheme="gray.700"
-      disabled
-      _disabled={{ bgColor: "gray.500" }}
+      color="white"
+      onClick={() => onPageChange(number)}
     >
       {number}
     </Button>

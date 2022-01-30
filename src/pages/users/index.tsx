@@ -20,9 +20,11 @@ import { RiAddLine, RiPencilLine } from "react-icons/ri";
 
 import { Header, Pagination, Sidebar } from "@/components";
 import { useUsers } from "@/services";
+import { useState } from "react";
 
 export default function UserList() {
-  const { data: users, isLoading, error, isFetching } = useUsers();
+  const [page, setPage] = useState(1);
+  const { data, isLoading, error, isFetching } = useUsers(page);
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -55,7 +57,7 @@ export default function UserList() {
           </Tr>
         </Thead>
         <Tbody>
-          {users?.map((user) => (
+          {data?.users.map((user) => (
             <Tr key={user.id}>
               <Td px={["4", "4", "6"]}>
                 <Checkbox colorScheme="pink" />
@@ -86,7 +88,11 @@ export default function UserList() {
           ))}
         </Tbody>
       </Table>
-      <Pagination />
+      <Pagination
+        totalCountOfRegisters={data?.totalCount}
+        currentPage={page}
+        onPageChange={setPage}
+      />
     </>
   );
 
