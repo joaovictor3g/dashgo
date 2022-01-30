@@ -13,9 +13,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { object, ref, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { Input } from "../../components/Form";
-import { Header } from "../../components/Header";
-import { Sidebar } from "../../components/SideBar";
+import { Input, Header, Sidebar } from "@/components";
 
 type CreateUserFormData = {
   name: string;

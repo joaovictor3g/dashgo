@@ -14,6 +14,7 @@
     "@emotion/styled": "^11",
     "@hookform/resolvers": "^2.8.8",
     "apexcharts": "^3.33.0",
+    "axios": "^0.25.0",
     "framer-motion": "^5",
     "next": "12.0.8",
     "react": "17.0.2",
@@ -21,9 +22,11 @@
     "react-dom": "17.0.2",
     "react-hook-form": "^7.25.0",
     "react-icons": "^4.3.1",
+    "react-query": "^3.34.12",
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@faker-js/faker": "^6.0.0-alpha.5",
     "@types/node": "17.0.8",
     "@types/react": "17.0.38",
     "eslint": "8.7.0",
