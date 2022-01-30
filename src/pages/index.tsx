@@ -5,7 +5,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { Input } from "@/components";
+import { Form } from "@/components";
+
+const { Input } = Form;
 
 type SiginInFormData = {
   email: string;
