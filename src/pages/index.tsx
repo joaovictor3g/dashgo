@@ -6,6 +6,7 @@ import { object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Form } from "@/components";
+import { useAuth } from "@/contexts";
 
 const { Input } = Form;
 
@@ -20,6 +21,8 @@ const signInFormSchema = object().shape({
 });
 
 const Home: NextPage = () => {
+  const { signIn } = useAuth();
+
   const { register, handleSubmit, formState } = useForm<SiginInFormData>({
     resolver: yupResolver(signInFormSchema),
   });
@@ -30,8 +33,8 @@ const Home: NextPage = () => {
     values,
     event
   ) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    console.log(values);
+    event.preventDefault();
+    await signIn(values);
   };
 
   return (

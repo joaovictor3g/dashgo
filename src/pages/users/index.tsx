@@ -86,7 +86,7 @@ export default function UserList({ users }: UserListProps) {
           </Tr>
         </Thead>
         <Tbody>
-          {data?.users.map((user) => (
+          {data?.users?.map((user) => (
             <Tr key={user.id}>
               <Td px={["4", "4", "6"]}>
                 <Checkbox colorScheme="pink" />
@@ -167,11 +167,19 @@ export default function UserList({ users }: UserListProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const { users } = await getUsers(1);
+  try {
+    const { users } = await getUsers(1);
 
-  return {
-    props: {
-      users,
-    },
-  };
+    return {
+      props: {
+        users,
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        users: [],
+      },
+    };
+  }
 };

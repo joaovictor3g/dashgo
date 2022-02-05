@@ -3,6 +3,9 @@ import dynamic from "next/dynamic";
 import { ApexOptions } from "apexcharts";
 
 import { Header, Sidebar } from "@/components";
+import { useAuth } from "@/contexts";
+import { useEffect } from "react";
+import { api } from "@/services";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const options: ApexOptions = {
@@ -56,6 +59,13 @@ const options: ApexOptions = {
 const series = [{ name: "Series1", data: [31, 120, 10, 28, 61, 18, 109] }];
 
 export default function Dashboard() {
+  useEffect(() => {
+    api
+      .get("/me")
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error));
+  });
+
   return (
     <Flex direction="column" h="100vh">
       <Header />

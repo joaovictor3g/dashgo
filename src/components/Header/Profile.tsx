@@ -1,3 +1,4 @@
+import { useAuth } from "@/contexts";
 import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
 
 interface ProfileProps {
@@ -5,13 +6,15 @@ interface ProfileProps {
 }
 
 export function Profile({ showProfileData = true }: ProfileProps) {
+  const { user } = useAuth();
+
   return (
     <Flex align="center">
       {showProfileData && (
         <Box mr="4" textAlign="right">
           <Text>João Victor</Text>
           <Text color="gray.300" fontSize="small">
-            jvdias1717@gmail.com
+            {user?.email}
           </Text>
         </Box>
       )}
