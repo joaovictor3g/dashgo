@@ -1,12 +1,13 @@
 import { Flex, SimpleGrid, Box, Text, theme } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import { ApexOptions } from "apexcharts";
+import decode from "jwt-decode";
 
 import { Header, Sidebar } from "@/components";
-import { useEffect } from "react";
-import { api, setupApiClient } from "@/services";
+import { setupApiClient } from "@/services";
 import { GetServerSideProps } from "next";
 import { withSSRAuth } from "@/utils";
+import { Can } from "@/components/Can";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const options: ApexOptions = {
@@ -60,13 +61,6 @@ const options: ApexOptions = {
 const series = [{ name: "Series1", data: [31, 120, 10, 28, 61, 18, 109] }];
 
 export default function Dashboard() {
-  useEffect(() => {
-    api
-      .get("/me")
-      .then((res) => console.log(res))
-      .catch((error) => console.log(error));
-  });
-
   return (
     <Flex direction="column" h="100vh">
       <Header />
@@ -91,6 +85,9 @@ export default function Dashboard() {
           </Box>
         </SimpleGrid>
       </Flex>
+      <Can permissions={["metrics.list"]}>
+        <div>Métricas</div>
+      </Can>
     </Flex>
   );
 }
@@ -102,5 +99,9 @@ export const getServerSideProps: GetServerSideProps = withSSRAuth(
     return {
       props: {},
     };
+  },
+  {
+    permissions: ["metrics.list"],
+    roles: ["administrator"],
   }
 );
