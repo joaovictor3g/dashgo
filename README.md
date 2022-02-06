@@ -14,6 +14,7 @@ This app has built while chapter 4 of ignite. It's an app to analyze and visuali
 - [Next.js](https://nextjs.org/)
 - [Chakra UI](https://chakra-ui.com/)
 - [React Query](https://react-query.tanstack.com/)
+- [Apex Charts](https://apexcharts.com/docs/installation/)
 
 ### 📈 How contributing?
 
