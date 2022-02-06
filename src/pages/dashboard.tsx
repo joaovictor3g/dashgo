@@ -3,9 +3,10 @@ import dynamic from "next/dynamic";
 import { ApexOptions } from "apexcharts";
 
 import { Header, Sidebar } from "@/components";
-import { useAuth } from "@/contexts";
 import { useEffect } from "react";
-import { api } from "@/services";
+import { api, setupApiClient } from "@/services";
+import { GetServerSideProps } from "next";
+import { withSSRAuth } from "@/utils";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const options: ApexOptions = {
@@ -93,3 +94,13 @@ export default function Dashboard() {
     </Flex>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(
+  async (ctx) => {
+    const apiClient = setupApiClient(ctx);
+
+    return {
+      props: {},
+    };
+  }
+);

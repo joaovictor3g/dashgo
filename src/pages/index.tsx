@@ -1,12 +1,14 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { Button, Flex, Stack } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { parseCookies } from "nookies";
 
 import { Form } from "@/components";
 import { useAuth } from "@/contexts";
+import { withSSRGuest } from "@/utils";
 
 const { Input } = Form;
 
@@ -90,3 +92,11 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export const getServerSideProps: GetServerSideProps = withSSRGuest(
+  async (ctx) => {
+    return {
+      props: {},
+    };
+  }
+);
