@@ -8,6 +8,7 @@ import { setupApiClient } from "@/services";
 import { GetServerSideProps } from "next";
 import { withSSRAuth } from "@/utils";
 import { Can } from "@/components/Can";
+import { useAuth } from "@/contexts";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const options: ApexOptions = {
@@ -61,32 +62,43 @@ const options: ApexOptions = {
 const series = [{ name: "Series1", data: [31, 120, 10, 28, 61, 18, 109] }];
 
 export default function Dashboard() {
+  const { signOut } = useAuth();
+
   return (
     <Flex direction="column" h="100vh">
-      <Header />
-
-      <Flex w="100%" my="6" maxW={1480} mx="auto" px="6">
-        <Sidebar />
-
-        <SimpleGrid
-          flex="1"
-          gap="4"
-          minChildWidth={["320px", "400px"]}
-          align="flex-start"
-        >
-          <Box p={["6", "8"]} bg="gray.800" borderRadius={8}>
-            <Text>Inscritos da semana</Text>
-            <Chart type="area" height={160} options={options} series={series} />
-          </Box>
-
-          <Box p="8" bg="gray.800" borderRadius={8}>
-            <Text>Taxa de entrada</Text>
-            <Chart type="area" height={160} options={options} series={series} />
-          </Box>
-        </SimpleGrid>
-      </Flex>
       <Can permissions={["metrics.list"]}>
-        <div>Métricas</div>
+        <Header />
+
+        <Flex w="100%" my="6" maxW={1480} mx="auto" px="6">
+          <Sidebar />
+
+          <SimpleGrid
+            flex="1"
+            gap="4"
+            minChildWidth={["320px", "400px"]}
+            align="flex-start"
+          >
+            <Box p={["6", "8"]} bg="gray.800" borderRadius={8}>
+              <Text>Inscritos da semana</Text>
+              <Chart
+                type="area"
+                height={160}
+                options={options}
+                series={series}
+              />
+            </Box>
+
+            <Box p="8" bg="gray.800" borderRadius={8}>
+              <Text>Taxa de entrada</Text>
+              <Chart
+                type="area"
+                height={160}
+                options={options}
+                series={series}
+              />
+            </Box>
+          </SimpleGrid>
+        </Flex>
       </Can>
     </Flex>
   );

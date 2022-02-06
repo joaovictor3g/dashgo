@@ -1,12 +1,21 @@
 import { useAuth } from "@/contexts";
-import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Flex,
+  Text,
+  Menu,
+  MenuItem,
+  MenuList,
+  MenuButton,
+} from "@chakra-ui/react";
 
 interface ProfileProps {
   showProfileData?: boolean;
 }
 
 export function Profile({ showProfileData = true }: ProfileProps) {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
 
   return (
     <Flex align="center">
@@ -18,11 +27,18 @@ export function Profile({ showProfileData = true }: ProfileProps) {
           </Text>
         </Box>
       )}
-      <Avatar
-        size="md"
-        name="João Victor"
-        src="https://github.com/joaovictor3g.png"
-      />
+      <Menu placement="start">
+        <MenuButton aria-label="Options">
+          <Avatar
+            size="md"
+            name="João Victor"
+            src="https://github.com/joaovictor3g.png"
+          />
+        </MenuButton>
+        <MenuList>
+          <MenuItem onClick={signOut}>Sair</MenuItem>
+        </MenuList>
+      </Menu>
     </Flex>
   );
 }

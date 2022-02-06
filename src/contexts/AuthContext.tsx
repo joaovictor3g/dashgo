@@ -22,6 +22,7 @@ type User = {
 
 type AuthContextData = {
   signIn(credentials: SignInCredentials): Promise<void>;
+  signOut(): void;
   isAuthenticated: boolean;
   user: User | null;
 };
@@ -32,15 +33,37 @@ interface AuthContextProviderProps {
 
 const AuthContext = createContext({} as AuthContextData);
 
+let authChannel: BroadcastChannel;
+
 export async function signOut() {
   destroyCookie(undefined, "dashgo.token");
   destroyCookie(undefined, "dashgo.refreshToken");
+
+  authChannel.postMessage("signOut");
+
   Router.push("/");
 }
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const isAuthenticated = !!user;
+
+  useEffect(() => {
+    authChannel = new BroadcastChannel("auth");
+
+    authChannel.onmessage = (message) => {
+      switch (message.data) {
+        case "signOut":
+          signOut();
+          break;
+        case "signIn":
+          Router.push("/dashoboard");
+          break;
+        default:
+          break;
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const { "dashgo.token": token } = parseCookies();
@@ -93,7 +116,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, signIn, user }}>
+    <AuthContext.Provider value={{ isAuthenticated, signIn, signOut, user }}>
       {children}
     </AuthContext.Provider>
   );
