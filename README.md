@@ -1,6 +1,6 @@
 # dashgo.
 
-![Projeto](https://img.shields.io/badge/joaovictor3g-UIClone-dark)
+![Projeto](https://img.shields.io/badge/joaovictor3g-dashgo-dark)
 ![licence mit](https://img.shields.io/badge/license-MIT-green)
 
 ### Application
